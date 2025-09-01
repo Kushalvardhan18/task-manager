@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-function Modal({ onclose, oncreate }) {
+function TaskModal({ onclose, oncreate }) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [date, setDate] = useState("");
@@ -9,32 +9,35 @@ function Modal({ onclose, oncreate }) {
     console.log("Task created", title, description, date);
     const newTask = { title, description, date };
     oncreate(newTask);
-    setTitle("");
-    setDescription("");
-    setDate("");
   }
   return (
-    <div className="flex border-1 justify-between border-amber-500 w-md h-xl m-2">
-      <div className=" flex flex-col p-2 ">
+    <div className="flex border-1  border-amber-500 m-2 min-h-[200px] ">
+      <div className="p-2 m-2 flex flex-col flex-wrap gap-5 w-md justify-around">
         <input
           type="text"
           placeholder="Task Title"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
+          className="border-1 px-2 py-1 focus:outline-none"
         />
         <input
           type="text"
           placeholder="Task Description"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
+          className="border-1 px-2 py-1 focus:outline-none"
         />
+        <span className="flex gap-2">
+          Deadline
         <input
           type="date"
           value={date}
           onChange={(e) => setDate(e.target.value)}
+          className="dark:[color-scheme:dark]"
         />
-        {title === "" || description === "" || date === "" ? (
-          <button className="border-1 !bg-green-300 w-fit px-2 cursor-not-allowed">
+        </span>
+        {title === "" || description === "" ? (
+          <button className=" !bg-green-300 w-fit px-3 py-1 cursor-not-allowed rounded-md">
             Create
           </button>
         ) : (
@@ -42,7 +45,7 @@ function Modal({ onclose, oncreate }) {
             onClick={() => {
               task(), onclose();
             }}
-            className="rounded-xs border-1 !bg-green-500 w-fit px-2 hover:cursor-pointer hover:!bg-green-800"
+            className="rounded-md !bg-green-500 w-fit px-3 py-1 hover:cursor-pointer hover:!bg-green-800"
           >
             Create
           </button>
@@ -58,4 +61,4 @@ function Modal({ onclose, oncreate }) {
   );
 }
 
-export default Modal;
+export default TaskModal;
