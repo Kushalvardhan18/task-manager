@@ -11,20 +11,20 @@ function TaskModal({ onclose, oncreate }) {
     oncreate(newTask);
   }
   return (
-    <div className="flex border-1  border-amber-500 m-2 min-h-[200px] ">
-      <div className="p-2 m-2 flex flex-col flex-wrap gap-5 w-md justify-around">
+    <div className="flex border-1  border-amber-500 m-2 min-h-[200px] fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 ">
+      <div className="p-2 m-2 flex flex-col flex-wrap gap-5 w-md justify-around ">
         <input
           type="text"
           placeholder="Task Title"
           value={title}
-          onChange={(e) => setTitle(e.target.value)}
+          onChange={(e) => setTitle(e.target.value.toUpperCase())}
           className="border-1 px-2 py-1 focus:outline-none"
         />
-        <input
-          type="text"
+        <textarea
+          text
           placeholder="Task Description"
           value={description}
-          onChange={(e) => setDescription(e.target.value)}
+          onChange={(e) => setDescription(e.target.value.toUpperCase())}
           className="border-1 px-2 py-1 focus:outline-none"
         />
         <span className="flex gap-2">
@@ -52,7 +52,7 @@ function TaskModal({ onclose, oncreate }) {
         )}
       </div>
       <button
-        className="hover:!text-red-500 px-2 py-1 h-fit m-1 font-bold"
+        className="hover:!text-red-900 px-2 py-1 h-10 m-1 font-bold !text-red-500 text-3xl"
         onClick={onclose}
       >
         X

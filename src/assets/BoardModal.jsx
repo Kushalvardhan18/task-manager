@@ -10,7 +10,7 @@ function BoardModal({ oncreate, onclose }) {
     oncreate(newBoard);
   }
   return (
-    <div className="flex border-1  justify-between gap-4 ">
+    <div className="flex border-1  justify-between gap-4  fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
       <div className="flex flex-col p-2">
         <div className="flex flex-col gap-2">
           <span className="flex gap-2 items-center">
