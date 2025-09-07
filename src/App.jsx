@@ -75,7 +75,7 @@ function App() {
           onDragOver={handleDragOver}
           onDrop={(e) => handleDrop(e, "TODO")}
         >
-          <h2 className="text-center text-3xl !text-red-500 font-medium">
+          <h2 className="text-center text-3xl !text-red-500 font-medium mb-5">
             TODO
           </h2>
           {tasks
@@ -86,7 +86,7 @@ function App() {
                   key={task.id}
                   draggable
                   onDragStart={(e) => handleDragStart(e, task.id)}
-                  className=" p-2  !bg-white  !text-black font-bold w-[95%] overflow-hidden"
+                  className=" p-2  !bg-white  !text-red-500 font-bold w-[95%] overflow-hidden text-2xl"
                 >
                   {task.title}
                 </ul>
@@ -104,19 +104,28 @@ function App() {
           onDragOver={handleDragOver}
           onDrop={(e) => handleDrop(e, "IN PROCESS")}
         >
-          <h2 className="text-center text-3xl !text-yellow-500 font-medium">
+          <h2 className="text-center text-3xl !text-yellow-500 font-medium mb-5">
             IN PROCESS
           </h2>
           {tasks
             .filter((t) => t.status === "IN PROCESS")
             .map((task) => (
-              <ul
-                key={task.id}
-                draggable
-                onDragStart={(e) => handleDragStart(e, task.id)}
-              >
-                {task.title}
-              </ul>
+              <div className="flex  my-2 w-full !bg-white rounded-md  justify-between overflow-hidden">
+                <ul
+                  key={task.id}
+                  draggable
+                  onDragStart={(e) => handleDragStart(e, task.id)}
+                  className=" p-2  !bg-white  !text-yellow-500 font-bold w-[95%] overflow-hidden text-2xl"
+                >
+                  {task.title}
+                </ul>
+                <div className="flex gap-5 !bg-white overflow-hidden">
+                  <img src={edit} alt="Edit" width={20} className="!bg-white" />
+                  <button className="!text-red-600 !bg-white  mr-5 font-bold text-2xl ">
+                    X
+                  </button>
+                </div>
+              </div>
             ))}
         </div>
         <div
@@ -124,19 +133,28 @@ function App() {
           onDragOver={handleDragOver}
           onDrop={(e) => handleDrop(e, "COMPLETED")}
         >
-          <h2 className="text-center text-3xl !text-green-500 font-medium">
+          <h2 className="text-center text-3xl !text-green-500 font-medium mb-5">
             COMPLETED
           </h2>
           {tasks
             .filter((t) => t.status === "COMPLETED")
             .map((task) => (
-              <ul
-                key={task.id}
-                draggable
-                onDragStart={(e) => handleDragStart(e, task.id)}
-              >
-                {task.title}
-              </ul>
+              <div className="flex  my-2 w-full !bg-white rounded-md  justify-between overflow-hidden">
+                <ul
+                  key={task.id}
+                  draggable
+                  onDragStart={(e) => handleDragStart(e, task.id)}
+                  className=" p-2  !bg-white  !text-green-500 font-bold w-[95%] overflow-hidden text-2xl"
+                >
+                  {task.title}
+                </ul>
+                <div className="flex gap-5 !bg-white overflow-hidden">
+                  <img src={edit} alt="Edit" width={20} className="!bg-white" />
+                  <button className="!text-red-600 !bg-white  mr-5 font-bold text-2xl ">
+                    X
+                  </button>
+                </div>
+              </div>
             ))}
         </div>
 
@@ -148,7 +166,7 @@ function App() {
             onDrop={(e) => handleDrop(e, board.status)}
           >
             <h2
-              className="text-center text-3xl font-medium"
+              className="text-center text-3xl font-medium mb-5"
               style={{ color: board.color }}
             >
               {board.name}
@@ -156,13 +174,28 @@ function App() {
             {tasks
               .filter((t) => t.status === board.status)
               .map((task) => (
-                <ul
-                  key={task.id}
-                  draggable
-                  onDragStart={(e) => handleDragStart(e, task.id)}
-                >
-                  {task.title}
-                </ul>
+                <div className="flex  my-2 w-full !bg-white rounded-md  justify-between overflow-hidden">
+                  <ul
+                    key={task.id}
+                    draggable
+                    onDragStart={(e) => handleDragStart(e, task.id)}
+                    className=" p-2  !bg-white  font-bold w-[95%] overflow-hidden text-2xl"
+                    style={{color:board.color}}
+                  >
+                    {task.title}
+                  </ul>
+                  <div className="flex gap-5 !bg-white overflow-hidden">
+                    <img
+                      src={edit}
+                      alt="Edit"
+                      width={20}
+                      className="!bg-white"
+                    />
+                    <button className="!text-red-600 !bg-white  mr-5 font-bold text-2xl ">
+                      X
+                    </button>
+                  </div>
+                </div>
               ))}
           </div>
         ))}
