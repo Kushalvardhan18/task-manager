@@ -36,6 +36,10 @@ function App() {
       )
     );
   }
+  function deleteTask(id) {
+    const newTasks = tasks.filter((item) => item.id !== id);
+    setTasks(newTasks);
+  }
 
   return (
     <>
@@ -52,7 +56,7 @@ function App() {
         />
       )}
 
-      <h1 className="text-center text-4xl font-medium !text-teal-500">
+      <h1 className="text-center text-4xl font-medium !text-teal-500 my-5">
         Task Manager
       </h1>
 
@@ -92,7 +96,10 @@ function App() {
                 </ul>
                 <div className="flex gap-5 !bg-white overflow-hidden">
                   <img src={edit} alt="Edit" width={20} className="!bg-white" />
-                  <button className="!text-red-600 !bg-white  mr-5 font-bold text-2xl ">
+                  <button
+                    className="!text-red-600 !bg-white  mr-5 font-bold text-2xl "
+                    onClick={() => deleteTask(task.id)}
+                  >
                     X
                   </button>
                 </div>
@@ -121,7 +128,10 @@ function App() {
                 </ul>
                 <div className="flex gap-5 !bg-white overflow-hidden">
                   <img src={edit} alt="Edit" width={20} className="!bg-white" />
-                  <button className="!text-red-600 !bg-white  mr-5 font-bold text-2xl ">
+                  <button
+                    className="!text-red-600 !bg-white  mr-5 font-bold text-2xl "
+                    onClick={() => deleteTask(task.id)}
+                  >
                     X
                   </button>
                 </div>
@@ -150,7 +160,10 @@ function App() {
                 </ul>
                 <div className="flex gap-5 !bg-white overflow-hidden">
                   <img src={edit} alt="Edit" width={20} className="!bg-white" />
-                  <button className="!text-red-600 !bg-white  mr-5 font-bold text-2xl ">
+                  <button
+                    className="!text-red-600 !bg-white  mr-5 font-bold text-2xl"
+                    onClick={() => deleteTask(task.id)}
+                  >
                     X
                   </button>
                 </div>
@@ -180,7 +193,7 @@ function App() {
                     draggable
                     onDragStart={(e) => handleDragStart(e, task.id)}
                     className=" p-2  !bg-white  font-bold w-[95%] overflow-hidden text-2xl"
-                    style={{color:board.color}}
+                    style={{ color: board.color }}
                   >
                     {task.title}
                   </ul>
@@ -191,7 +204,10 @@ function App() {
                       width={20}
                       className="!bg-white"
                     />
-                    <button className="!text-red-600 !bg-white  mr-5 font-bold text-2xl ">
+                    <button
+                      className="!text-red-600 !bg-white  mr-5 font-bold text-2xl "
+                      onClick={() => deleteTask(task.id)}
+                    >
                       X
                     </button>
                   </div>
