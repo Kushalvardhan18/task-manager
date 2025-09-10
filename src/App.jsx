@@ -57,6 +57,7 @@ function App() {
     );
   }
 
+  
   return (
     <>
       {showBoardModal && (
@@ -110,7 +111,7 @@ function App() {
         <TaskColumn
           title="IN PROCESS"
           status="IN PROCESS"
-          color="yellow"
+          color="#DAA520"
           onDrop={handleDrop}
           onDragStart={handleDragStart}
           onDelete={deleteTask}
@@ -133,7 +134,7 @@ function App() {
             key={board.status}
             title={board.name}
             status={board.status}
-            color={board.color === "#ffffff" ? "red":board.color}
+            color={board.color}
             tasks={tasks.filter((t) => t.status === board.status)}
             onDrop={handleDrop}
             onDragStart={handleDragStart}

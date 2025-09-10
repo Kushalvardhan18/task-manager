@@ -1,16 +1,22 @@
-import React from "react";
+import React, { useState } from "react";
 import edit from "../assets/edit.svg";
 const TaskColumn = ({
   title,
+
   status,
   color,
   onDrop,
   onDragStart,
   onDelete,
   tasks,
-  onEdit
+  onEdit,
 }) => {
-   return (
+  const [expandedTaskId, setExpandedTaskId] = useState(null);
+
+  function handleTaskDetails(taskId) {
+    setExpandedTaskId(expandedTaskId === taskId ? null : taskId);
+  }
+  return (
     <div
       className="w-md m-2 p-2 rounded-md shadow-sm"
       style={{ boxShadow: `0 0 5px ${color}` }}
@@ -30,9 +36,18 @@ const TaskColumn = ({
             draggable
             onDragStart={(e) => onDragStart(e, task.id)}
             className="p-2 font-bold w-[95%] overflow-hidden text-2xl !bg-white"
-            style={{ color}}
+            style={{ color: color.toLowerCase() === "#ffffff" ? "red" : color }}
+            onClick={() => handleTaskDetails(task.id)}
           >
             {task.title}
+            {expandedTaskId === task.id && (
+              <>
+              <p className=" !text-gray-600 text-xl !bg-white">
+               Description: {task.description}
+              </p>
+              <span className="!bg-white !text-red-500 text-lg">Deadline: {task.date}</span>
+               </>
+            )}
           </ul>
           <div className="flex gap-5 !bg-white overflow-hidden w-fit">
             <img
