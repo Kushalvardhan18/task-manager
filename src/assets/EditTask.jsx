@@ -1,20 +1,26 @@
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
 
-function TaskModal({ onclose, oncreate }) {
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [date, setDate] = useState("");
+const EditTask = ({ task, onedit, onclose }) => {
+  const [title, setTitle] = useState(task.title);
+  const [description, setDescription] = useState(task.description);
+  const [date, setDate] = useState(task.date);
 
-  function task() {
-    console.log("Task created", title, description, date);
-    const newTask = { title, description, date };
-    oncreate(newTask);
+  useEffect(() => {
+    setTitle(task.title || "");
+    setDescription(task.description || "");
+    setDate(task.date || "");
+  }, [task]);
+  
+  function handleSubmit(e) {
+    e.preventDefault();
+    onedit({ ...task, title, description, date });
+    onclose();
   }
   return (
     <div className="fixed inset-0  !bg-black/50 flex items-center justify-center z-50 ">
       <div className="flex flex-col border p-5 border-amber-500 m-2 min-h-[200px] fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-xl text-2xl z-50 overflow-hidden">
         <div className="flex justify-center items-center p-2">
-          <h1 className="text-2xl font-semibold !text-white">CREATE NEW TASK</h1>
+          <h1 className="text-2xl font-semibold !text-white">EDIT TASK</h1>
           <button
             className="hover:!text-red-900 px-2 py-1 h-10 m-1 font-extrabold !text-red-500 text-3xl fixed right-2"
             onClick={onclose}
@@ -22,7 +28,10 @@ function TaskModal({ onclose, oncreate }) {
             X
           </button>
         </div>
-        <div className="p-3 m-2 flex flex-col flex-wrap gap-5 w-md ">
+        <form
+          onSubmit={handleSubmit}
+          className="p-3 m-2 flex flex-col flex-wrap gap-5 w-md "
+        >
           <label className="!text-amber-500">Task Title :</label>
           <input
             type="text"
@@ -50,23 +59,21 @@ function TaskModal({ onclose, oncreate }) {
           <div className="flex justify-center my-2">
             {title === "" || description === "" ? (
               <button className=" !bg-green-300 w-fit px-5 py-2 cursor-not-allowed rounded-md">
-                Create
+                Edit
               </button>
             ) : (
               <button
-                onClick={() => {
-                  task(), onclose();
-                }}
+                type="submit"
                 className="rounded-md !bg-green-500 w-fit px-5 py-2 hover:cursor-pointer hover:!bg-green-800 "
               >
-                Create
+                Edit
               </button>
             )}
           </div>
-        </div>
+        </form>
       </div>
     </div>
   );
-}
+};
 
-export default TaskModal;
+export default EditTask;

@@ -2,7 +2,7 @@ import { useState } from "react";
 
 function BoardModal({ oncreate, onclose }) {
   const [name, setName] = useState("");
-  const [color, setColor] = useState("#ffffff");
+  const [color, setColor] = useState("#000000");
 
   function board() {
     console.log("board", name, color);

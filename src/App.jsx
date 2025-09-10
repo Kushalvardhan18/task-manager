@@ -1,18 +1,24 @@
 import { useState } from "react";
 import TaskModal from "./assets/TaskModal";
 import BoardModal from "./assets/BoardModal";
-import edit from "../src/assets/edit.svg";
+import EditTask from "./assets/EditTask";
+import TaskColumn from "./assets/TaskColumn";
 function App() {
   const [tasks, setTasks] = useState([]);
   const [boards, setBoards] = useState([]);
   const [showTaskModal, setShowTaskModal] = useState(false);
   const [showBoardModal, setShowBoardModal] = useState(false);
+  const [showEditModal, setEditModal] = useState(false);
+  const [editingTask, setEditingTask] = useState(null);
 
   function showTaskDialog(boolean) {
     setShowTaskModal(boolean);
   }
   function showBoardDialog(boolean) {
     setShowBoardModal(boolean);
+  }
+  function showEditDialog(boolean) {
+    setEditModal(boolean);
   }
   function createTasks(task) {
     setTasks((prev) => [...prev, { ...task, id: Date.now(), status: "TODO" }]);
@@ -24,9 +30,6 @@ function App() {
     e.dataTransfer.setData("taskId", taskId);
   }
 
-  function handleDragOver(e) {
-    e.preventDefault();
-  }
   function handleDrop(e, newStatus) {
     e.preventDefault();
     const taskId = e.dataTransfer.getData("taskId");
@@ -41,6 +44,19 @@ function App() {
     setTasks(newTasks);
   }
 
+  function handleEditTask(id) {
+    const task = tasks.find((task) => task.id === id);
+    setEditingTask(task); // store the selected task
+    showEditDialog(true);
+  }
+  function updateTask(updatedTask) {
+    setTasks((prev) =>
+      prev.map((task) =>
+        task.id === updatedTask.id ? { ...task, ...updatedTask } : task
+      )
+    );
+  }
+
   return (
     <>
       {showBoardModal && (
@@ -53,6 +69,13 @@ function App() {
         <TaskModal
           onclose={() => showTaskDialog(false)}
           oncreate={createTasks}
+        />
+      )}
+      {showEditModal && (
+        <EditTask
+          task={editingTask}
+          onclose={() => showEditDialog(false)}
+          onedit={updateTask}
         />
       )}
 
@@ -74,146 +97,49 @@ function App() {
         Create Board
       </button>
       <div className="flex h-full justify-center mt-15">
-        <div
-          className=" w-md  m-2 p-2 rounded-md min-h-[450px] shadow-sm shadow-red-400"
-          onDragOver={handleDragOver}
-          onDrop={(e) => handleDrop(e, "TODO")}
-        >
-          <h2 className="text-center text-3xl !text-red-500 font-medium mb-5">
-            TODO
-          </h2>
-          {tasks
-            .filter((t) => t.status === "TODO")
-            .map((task) => (
-              <div className="flex  my-2 w-full !bg-white rounded-md  justify-between overflow-hidden">
-                <ul
-                  key={task.id}
-                  draggable
-                  onDragStart={(e) => handleDragStart(e, task.id)}
-                  className=" p-2  !bg-white  !text-red-500 font-bold w-[95%] overflow-hidden text-2xl"
-                >
-                  {task.title}
-                </ul>
-                <div className="flex gap-5 !bg-white overflow-hidden">
-                  <img src={edit} alt="Edit" width={20} className="!bg-white" />
-                  <button
-                    className="!text-red-600 !bg-white  mr-5 font-bold text-2xl "
-                    onClick={() => deleteTask(task.id)}
-                  >
-                    X
-                  </button>
-                </div>
-              </div>
-            ))}
-        </div>
-        <div
-          className=" w-md m-2 p-2 rounded-md shadow-sm shadow-yellow-400"
-          onDragOver={handleDragOver}
-          onDrop={(e) => handleDrop(e, "IN PROCESS")}
-        >
-          <h2 className="text-center text-3xl !text-yellow-500 font-medium mb-5">
-            IN PROCESS
-          </h2>
-          {tasks
-            .filter((t) => t.status === "IN PROCESS")
-            .map((task) => (
-              <div className="flex  my-2 w-full !bg-white rounded-md  justify-between overflow-hidden">
-                <ul
-                  key={task.id}
-                  draggable
-                  onDragStart={(e) => handleDragStart(e, task.id)}
-                  className=" p-2  !bg-white  !text-yellow-500 font-bold w-[95%] overflow-hidden text-2xl"
-                >
-                  {task.title}
-                </ul>
-                <div className="flex gap-5 !bg-white overflow-hidden">
-                  <img src={edit} alt="Edit" width={20} className="!bg-white" />
-                  <button
-                    className="!text-red-600 !bg-white  mr-5 font-bold text-2xl "
-                    onClick={() => deleteTask(task.id)}
-                  >
-                    X
-                  </button>
-                </div>
-              </div>
-            ))}
-        </div>
-        <div
-          className="w-md m-2 p-2 rounded-md shadow-sm shadow-green-400"
-          onDragOver={handleDragOver}
-          onDrop={(e) => handleDrop(e, "COMPLETED")}
-        >
-          <h2 className="text-center text-3xl !text-green-500 font-medium mb-5">
-            COMPLETED
-          </h2>
-          {tasks
-            .filter((t) => t.status === "COMPLETED")
-            .map((task) => (
-              <div className="flex  my-2 w-full !bg-white rounded-md  justify-between overflow-hidden">
-                <ul
-                  key={task.id}
-                  draggable
-                  onDragStart={(e) => handleDragStart(e, task.id)}
-                  className=" p-2  !bg-white  !text-green-500 font-bold w-[95%] overflow-hidden text-2xl"
-                >
-                  {task.title}
-                </ul>
-                <div className="flex gap-5 !bg-white overflow-hidden">
-                  <img src={edit} alt="Edit" width={20} className="!bg-white" />
-                  <button
-                    className="!text-red-600 !bg-white  mr-5 font-bold text-2xl"
-                    onClick={() => deleteTask(task.id)}
-                  >
-                    X
-                  </button>
-                </div>
-              </div>
-            ))}
-        </div>
+        <TaskColumn
+          title="TODO"
+          status="TODO"
+          color="red"
+          onDrop={handleDrop}
+          onDragStart={handleDragStart}
+          onDelete={deleteTask}
+          onEdit={handleEditTask}
+          tasks={tasks.filter((t) => t.status === "TODO")}
+        />
+        <TaskColumn
+          title="IN PROCESS"
+          status="IN PROCESS"
+          color="yellow"
+          onDrop={handleDrop}
+          onDragStart={handleDragStart}
+          onDelete={deleteTask}
+          onEdit={handleEditTask}
+          tasks={tasks.filter((t) => t.status === "IN PROCESS")}
+        />
+        <TaskColumn
+          title="COMPLETED"
+          status="COMPLETED"
+          color="green"
+          onDrop={handleDrop}
+          onDragStart={handleDragStart}
+          onDelete={deleteTask}
+          onEdit={handleEditTask}
+          tasks={tasks.filter((t) => t.status === "COMPLETED")}
+        />
 
         {boards.map((board) => (
-          <div
+          <TaskColumn
             key={board.status}
-            className=" w-md m-2 p-2 rounded-md shadow-sm shadow-fuchsia-400"
-            onDragOver={handleDragOver}
-            onDrop={(e) => handleDrop(e, board.status)}
-          >
-            <h2
-              className="text-center text-3xl font-medium mb-5"
-              style={{ color: board.color }}
-            >
-              {board.name}
-            </h2>
-            {tasks
-              .filter((t) => t.status === board.status)
-              .map((task) => (
-                <div className="flex  my-2 w-full !bg-white rounded-md  justify-between overflow-hidden">
-                  <ul
-                    key={task.id}
-                    draggable
-                    onDragStart={(e) => handleDragStart(e, task.id)}
-                    className=" p-2  !bg-white  font-bold w-[95%] overflow-hidden text-2xl"
-                    style={{ color: board.color }}
-                  >
-                    {task.title}
-                  </ul>
-                  <div className="flex gap-5 !bg-white overflow-hidden">
-                    <img
-                      src={edit}
-                      alt="Edit"
-                      width={20}
-                      className="!bg-white"
-                    />
-                    <button
-                      className="!text-red-600 !bg-white  mr-5 font-bold text-2xl "
-                      onClick={() => deleteTask(task.id)}
-                    >
-                      X
-                    </button>
-                  </div>
-                </div>
-              ))}
-          </div>
+            title={board.name}
+            status={board.status}
+            color={board.color === "#ffffff" ? "red":board.color}
+            tasks={tasks.filter((t) => t.status === board.status)}
+            onDrop={handleDrop}
+            onDragStart={handleDragStart}
+            onDelete={deleteTask}
+            onEdit={handleEditTask}
+          />
         ))}
       </div>
     </>
