@@ -18,7 +18,7 @@ const TaskColumn = ({
   }
   return (
     <div
-      className="w-md m-2 p-2 rounded-md shadow-sm"
+      className="w-md m-2 p-2 rounded-md shadow-sm min-h-120 "
       style={{ boxShadow: `0 0 5px ${color}` }}
       onDragOver={(e) => e.preventDefault()}
       onDrop={(e) => onDrop(e, status)}
