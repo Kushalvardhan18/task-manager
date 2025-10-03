@@ -12,8 +12,8 @@ function TaskModal({ onclose, oncreate }) {
   }
   return (
     <div className="fixed inset-0  !bg-black/50 flex items-center justify-center z-50 ">
-      <div className="flex flex-col border p-5 border-amber-500 m-2 min-h-[200px] fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-xl text-2xl z-50 overflow-hidden">
-        <div className="flex justify-center items-center p-2">
+      <div className="flex flex-col border p-5 border-amber-500 m-2 min-h-[200px] fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-xl text-2xl z-50 overflow-hidden bg-gray-900">
+        <div className="flex justify-center items-center p-2 ">
           <h1 className="text-2xl font-semibold !text-white">CREATE NEW TASK</h1>
           <button
             className="hover:!text-red-900 px-2 py-1 h-10 m-1 font-extrabold !text-red-500 text-3xl fixed right-2"
