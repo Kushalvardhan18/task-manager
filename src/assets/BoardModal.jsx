@@ -11,7 +11,7 @@ function BoardModal({ oncreate, onclose }) {
   }
   return (
     <div className="fixed inset-0 !bg-black/50">
-      <div className="flex border-1 flex-col justify-between  fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 p-5 rounded-xl">
+      <div className="flex border-1 flex-col justify-between  fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 p-5 rounded-xl bg-gray-900">
         <div className="flex justify-center items-center">
           <h1 className="text-2xl font-semibold !text-white">
             CREATE NEW BOARD
